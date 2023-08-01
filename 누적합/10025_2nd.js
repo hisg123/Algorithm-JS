@@ -32,7 +32,6 @@ const solution = (arrDict, n, k) => {
         sum -= arrDict[i - k - 1] ? arrDict[i - k - 1] : 0;
         sum += arrDict[i + k + 1] ? arrDict[i + k + 1] : 0;
         max = Math.max(max, sum);
-        console.log(i - k - 1, i, i + k + 1, max);
     }
     return max;
 }
