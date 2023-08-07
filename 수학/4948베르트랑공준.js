@@ -18,7 +18,6 @@ const solution = (n) => {
     for (let i = 2; i*i <= 2*n; i++) {
         if (primeArr[i]) {
             for (let j = i*i; j <= 2*n ; j += i) {
-                console.log(i, j);
                 primeArr[j] = false;
             }
         }
