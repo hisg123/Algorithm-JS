@@ -1,11 +1,13 @@
 const input = `1
 10
 13
-100
-1000
-10000
-100000
+40
 0`.split('\n').map(v => parseInt(v)).slice(0, -1);
+
+// 100
+// 1000
+// 10000
+// 100000
 
 
 const solution = (n) => {
@@ -15,8 +17,8 @@ const solution = (n) => {
 
     for (let i = 2; i*i <= 2*n; i++) {
         if (primeArr[i]) {
-            for (let j = 2*i; j <= 2*n ; j += i) {
-                // console.log(j);
+            for (let j = i*i; j <= 2*n ; j += i) {
+                console.log(i, j);
                 primeArr[j] = false;
             }
         }
