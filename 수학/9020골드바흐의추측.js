@@ -1,45 +1,41 @@
-const input = 
-`3
+const input = `3
 8
 10
 16`.split('\n').slice(1).map(el => parseInt(el));
 
-const solution = (n) => {
+const max = input.reduce((cur, acc) => Math.max(cur, acc));
 
-    const result = [];
+const getEratos = (n) => {
 
-    //에라토스테네스로 소수 거르기
-    const primeArr = Array(n).fill(true);
+    const primeArr = Array(n + 1).fill(true);
 
-    for (let i = 2; i * i <= n; i++) {
-        if (primeArr) {
+    for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (primeArr[i]) {
             for (let j = i * i; j <= n; j += i) {
                 primeArr[j] = false;
             }
         }
     }
 
-    for (let i = 2; i <= primeArr.length; i++) {
-        if (primeArr[i]) result.push(i);
-    }
+    primeArr[0] = false;
+    primeArr[1] = false;
 
-    let min = Number.MAX_SAFE_INTEGER;
-    let comb = [];
-    //차가 가장 작은 조합 구하기
-    for (let i = 0; i < result.length; i++) {
-        for (let j = 0; j < result.length; j++) {
-            if (result[i] + result[j] === n && Math.abs(result[i]-result[j]) < min) {
-                comb = [result[i], result[j]];
-                min = Math.abs(result[i]-result[j]);
-            }
-        }
-    }
-
-
-    //
-
-    return comb.join(' ');
+    return primeArr;
 }
 
-// console.log(input);
-input.forEach(el => console.log(solution(el)));
+const getMinDiff = (arr, n) => {
+    // console.log(arr);
+    for (let i = parseInt(n / 2) + 1; i >= 2; i--) {
+        if (arr[i] && arr[n - i]) {
+            return i < n - i ? `${i} ${n - i}` : `${n - i} ${i}`;
+        }
+    }
+}
+
+const solution = (arr) => {
+    const primeArr = getEratos(max);
+    const result = arr.map(el => getMinDiff(primeArr, el));
+    return result.join('\n');
+}
+
+console.log(solution(input));
