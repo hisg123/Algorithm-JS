@@ -1,19 +1,32 @@
-const [ N, S, ...arr ] = require('fs').readFileSync('/dev/stdin').toString().trim().split(/\s+/).map(v => +v);
+const input = `5 0
+-7 -3 -2 5 8`.split('\n');
 
-const solve = (N, S, arr) => {
-  let output = 0;
-  const recursion = (i, sum) => {
-    if (i === N) return;
+const [N, S] = input[0].split(' ').map(Number);
+const arr = input[1].split(' ').map(Number);
 
-    sum += arr[i];
-    if (sum === S) output++;
+const solution = (n, s, arr) => {
 
-    recursion(i + 1, sum);
-    recursion(i + 1, sum - arr[i]);
-  };
+  let count = 0;
+  const pick = [];
+  const dfs = (index) => {
+    if (index === n) {
+      const sum = pick.reduce((cur, acc) => cur + acc, 0);
+      if (sum === s) count++;
+      return;
+    }
 
-  recursion(0, 0);
-  console.log(output);
-};
+    pick.push(arr[index]);
+    dfs(index + 1);
+    pick.pop();
+    dfs(index + 1);
 
-solve(N, S, arr);
+
+    return count;
+  }
+
+  count = dfs(0);
+  if (s === 0) count--;
+  return count;
+}
+
+console.log(solution(N, S, arr))
