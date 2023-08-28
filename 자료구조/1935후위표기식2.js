@@ -46,7 +46,7 @@ const solution = () => {
         }
     }
 
-    return numberStack[0];
+    return numberStack[0].toFixed(2);
 }
 
 console.log(solution());
