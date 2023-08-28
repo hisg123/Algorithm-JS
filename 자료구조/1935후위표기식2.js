@@ -1,50 +1,53 @@
-const input = `1
-AA+A+
-1`.split('\n');
+const input = `5
+ABC*+DE/-
+1
+2
+3
+4
+5`.split('\n');
 
+let n = parseInt(input[0]);
+let calculateExpression = input[1];
+const numberArray = input.slice(2).map(Number);
 
-const formula = input[1];
-const arr = input.slice(2);
-
-const caculate = (a, b, exp) => {
-    a = Number(a);
-    b = Number(b);
-    return exp === '+' ? a + b :
-        exp === '-' ? a - b :
-            exp === '/' ? a / b : a * b
+const getABCDdict = (arr) => {
+    const dict = {};
+    arr.forEach((el, index) => {
+        dict[String.fromCharCode('A'.charCodeAt() + (index))] = parseInt(el);
+    });
+    return dict;
 }
 
-const getABCD = (arr) => {
-    const abcdDict = {};
-    arr.forEach((el, index) => {
-        abcdDict[String.fromCharCode('A'.charCodeAt() + index)] = el;
-    })
-    return abcdDict;
+const calculate = (a, b, calc) => {
+    return calc === '*' ? a * b :
+        calc === '+' ? a + b :
+            calc === '-' ? a - b : a / b;
 }
 
 const solution = () => {
+    // 1. number array ABCD를 매칭
+    const abcdDict = getABCDdict(numberArray);
 
-    const abcdDict = getABCD(arr);
-    let actualFormula = [...formula].map(el => {
-        if (el.match(new RegExp('[A-Z]'))) {
-            el = abcdDict[el];
-        }
-        return el;
-    })
-
-    const result = [];
-    for (let i = 0; i < actualFormula.length; i++) {
-        if (actualFormula[i].match(new RegExp('[0-9]'))) {
-            result.push(actualFormula[i]);
+    // 2. calculate expression에 abcd 실제 값 매칭
+    let realValueExpression = [...calculateExpression].map(el => el.match(new RegExp('[A-Z]')) ? abcdDict[el] : el);
+    
+    // 3. 후치연산 시작
+    // 숫자 push 
+    // 연산자 나오면 숫자 2개 pop, 계산
+    //  계산은 세부함수 => calculate
+    const numberStack = [];
+    for (let i = 0; i < realValueExpression.length; i++) {
+        console.log("🚀 ~ solution ~ numberStack:", numberStack)
+        if (String(realValueExpression[i]).match(new RegExp('[*,+,/,-]'))) {
+            const b = numberStack.pop();
+            const a = numberStack.pop();
+            numberStack.push(calculate(a, b, realValueExpression[i]));
         } else {
-            let b = result.pop();
-            let a = result.pop();
-            let calcRes = caculate(a, b, actualFormula[i]);
-            result.push(calcRes);
+            numberStack.push(realValueExpression[i]);
         }
     }
 
-    return result[0].toFixed(2).toString();
+    return numberStack[0];
 }
 
 console.log(solution());
