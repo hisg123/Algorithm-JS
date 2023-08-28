@@ -37,7 +37,6 @@ const solution = () => {
     //  계산은 세부함수 => calculate
     const numberStack = [];
     for (let i = 0; i < realValueExpression.length; i++) {
-        console.log("🚀 ~ solution ~ numberStack:", numberStack)
         if (String(realValueExpression[i]).match(new RegExp('[*,+,/,-]'))) {
             const b = numberStack.pop();
             const a = numberStack.pop();
