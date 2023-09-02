@@ -11,23 +11,22 @@ const arr = input.slice(1);
 
 
 const removeFunction = (str) => {
-    while (str.length > 0) {
-        let nextLeng = str.replace('()', '').length;
-        // console.log(str);
-        // console.log(str.length, nextLeng);
-        if (nextLeng === str.length) {
-            if (str !== '') return 'NO';
-        }
-        str = str.replace('()', '');
+    console.log(str);
+    let newStr = str.replace('()', '');
+    if (newStr === str) {
+        console.log(str, newStr)
+        if (newStr === '') return 'YES';
+        return 'NO';
     }
 
-    return 'YES';
+    removeFunction(newStr);
+    // console.log(newStr, result);
+    // return result;
 }
 
 const solution = () => {
 
     const result = [];
-    const reg = new RegExp('()');
     arr.forEach(el => {
         result.push(removeFunction(el));
     })
