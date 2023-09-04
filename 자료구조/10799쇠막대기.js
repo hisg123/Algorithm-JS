@@ -1,26 +1,28 @@
-const input = `(((()(()()))(())()))(()())`;
+const input = '()(((()())(())()))(())'
 
 
 const solution = () => {
-    const arr = [...input.replaceAll('()', '*')];
-    let answer = 0;
+    const newInput = input.split('()').join('*');
     const stack = [];
-    arr.forEach(el => {
+    let answer = 0;
+
+    [...newInput].forEach(el => {
         if (el === '(') {
             stack.push(el);
+        }
+
+        if (el === ')') {
+            stack.pop();
+            answer += 1;
         }
 
         if (el === '*') {
             answer += stack.length;
         }
-
-        if (el === ')') {
-            stack.pop();
-            answer++;
-        }
-        console.log(el, stack, answer);
     })
+
     return answer;
 }
+
 
 console.log(solution());

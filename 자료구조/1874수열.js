@@ -12,22 +12,23 @@ const n = input[0];
 const arr = input.slice(1);
 
 const solution = () => {
-    let i = 1;
+    let index = 1;
     const stack = [];
     const answer = [];
-    for (let el of arr) {
-        while (i <= el) {
-            stack.push(i);
-            answer.push('+');
-            i++;
-        }
+    for (let i = 0; i < arr.length; i++) {
 
-        if (el === stack.pop()) {
-            answer.push('-');
-        } else {
+        while (index <= arr[i]) {
+            stack.push(index);
+            answer.push('+');
+            index++;
+        }   
+
+        if (stack.pop() !== arr[i]) {
             return 'NO';
         }
+        answer.push('-');
     }
+
     return answer.join('\n');
 }
 

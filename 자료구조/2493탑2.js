@@ -12,13 +12,13 @@ const solution = () => {
 
     for (let i = n - 1; i >= 0; i--) {
         while (indexStack.length !== 0 && arr[getLast(indexStack)] < arr[i]) {
+            console.log(answer); 
             answer[getLast(indexStack)] = i + 1;
             indexStack.pop();
         }
         indexStack.push(i);
     }
-
     return answer.join(' ');
-};
+}
 
 console.log(solution());
